@@ -53,3 +53,11 @@ code.var.rows <- function(possibilities)
 
   return(possibilities)
 }
+
+# get the per-area probabilities of seeing a certain variation
+get.var.area.probs <- function(probs, var)
+{
+  prob.rows <- get.var.prob.rows(probs, var)
+  var.area.probs <- apply(prob.rows, 2, get.area.log.prob)
+  return(var.area.probs)
+}

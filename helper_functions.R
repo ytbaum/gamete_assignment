@@ -1,3 +1,6 @@
+area.names <- c("Gidron", "Sheizaf", "Zeelim", "Saif", "Ein Gedi",
+                "Zofar", "Peres", "Hemar")
+
 is.possibility <- function(row) {
   length(row["Mother"]) == 0
 }

@@ -18,7 +18,7 @@ get.prob.rows <- function(probs, alleles) {
   for (locus.name in names(alleles)){
     locus <- get.locus(locus.name)
     allele <- as.character(alleles[locus.name])
-    row <- probs[which(probs$Locus == locus & probs$Allele == allele),]
+    row <- probs[which(probs$Locus == locus & probs$Allele == allele), area.names]
     output.df <- rbind(output.df, row)
   }
 

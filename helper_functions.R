@@ -24,3 +24,13 @@ get.prob.rows <- function(probs, alleles) {
 
   return(output.df)
 }
+
+# function to get the log probability of seeing the given alleles in the given loci
+get.area.log.prob <- function(allele.probs) {
+  allele.probs <- as.numeric(allele.probs)
+  very.small.prob <- 0.0001
+  allele.probs[allele.probs == 0] <- very.small.prob
+  area.prob <- prod(allele.probs)
+  log.prob <- -log(area.prob)
+  return(log.prob)
+}

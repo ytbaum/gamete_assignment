@@ -34,3 +34,22 @@ get.area.log.prob <- function(allele.probs) {
   log.prob <- -log(area.prob)
   return(log.prob)
 }
+
+# function to identify which rows are variations, and not mother rows
+# (and also to identify which mother they belong to)
+code.var.rows <- function(possibilities)
+{
+  mother.rows <- which(nchar(mother) > 0)
+  for (i in 1:(length(mother.rows)-1)) {
+    cur.mother.row <- mother.rows[i]
+    next.mother.row <- mother.rows[i+1]
+    if (next.mother.row - cur.mother.row > 1) {
+      prefix <- possibilities[cur.mother.row, "Mother"]
+      var.code <- paste0(prefix, "_var")
+      var.rows <- seq(cur.mother.row + 1, next.mother.row - 1)
+      possibilities[var.rows, "Mother"] <- var.code
+    }
+  }
+
+  return(possibilities)
+}

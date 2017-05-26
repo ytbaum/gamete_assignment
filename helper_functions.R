@@ -5,6 +5,8 @@ is.possibility <- function(row) {
   length(row["Mother"]) == 0
 }
 
+# function to extract the locus number from the locus name
+# note: the locus number is returned as a string
 get.locus <- function(locus.name) {
   return(strsplit(locus.name, "-")[[1]][2])
 }

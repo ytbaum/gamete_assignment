@@ -60,3 +60,5 @@ for (i in 1:(length(mother.row.indices))) {
   output[cur.output.row, "Ratio"] <- ratio
 
 }
+
+write.csv(output, "results.csv")

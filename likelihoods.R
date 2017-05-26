@@ -24,4 +24,34 @@ probs.check <- probabilities %>%
             Peres = sum(as.numeric(Peres)),
             Hemar = sum(as.numeric(Hemar)))
 
+# table with sample, population average probabilities, ratio of (smallest to
+# second-smallest negative log prob), name of area with smallest log prob, name of area
+# with second-smallest log prob
+output <- data.frame()
+mother.row.indices <- get.mother.row.indices(possibilities)
+for (i in 1:(length(mother.row.indices)-1)) {
+  cur.mother.row <- mother.row.indices[i]
+  next.mother.row <- mother.row.indices[i+1]
+    if (next.mother.row - cur.mother.row > 1) {
+      var.row.indices <- seq(cur.mother.row + 1, next.mother.row - 1)
+      var.area.probs <- sapply(var.row.indices,
+                                 function(var.idx) {
+                                   get.var.area.probs(probabilities,
+                                                      possibilities[var.idx, allele.columns])})
+      area.probs <- apply(var.area.probs, 1, mean)
+      area.probs <- -log(area.probs)
+      highest.prob.area <- sort(area.probs)[1]
+      second.highest.prob.area <- sort(area.probs)[2]
+      ratio <- highest.prob.area / second.highest.prob.area
 
+      cur.output.row <- nrow(output) + 1
+      output[cur.output.row,"Sample"] <- possibilities[cur.mother.row, "Sample"]
+      output[cur.output.row,"Mother"] <- possibilities[cur.mother.row, "Mother"]
+      for (area in names(area.probs)) {
+        output[cur.output.row, area] <- area.probs[area]
+      }
+      output[cur.output.row, "Highest"] <- names(highest.prob.area)
+      output[cur.output.row, "Second"] <- names(second.highest.prob.area)
+      output[cur.output.row, "Ratio"] <- ratio
+    }
+}

@@ -46,7 +46,7 @@ get.var.prob.rows <- function(probs, variation) {
   return(output.df)
 }
 
-# function to get the log probability of seeing the given alleles in the given loci
+# function to get the probability of seeing the given alleles in the given loci
 get.area.prob <- function(allele.probs) {
   allele.probs <- as.numeric(allele.probs)
   very.small.prob <- 0.0001

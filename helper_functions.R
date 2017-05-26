@@ -11,6 +11,11 @@ get.locus <- function(locus.name) {
   return(strsplit(locus.name, "-")[[1]][2])
 }
 
+# function to create a code to identify the mother tree of a particular genotype variant
+get.var.code <- function(mother) {
+  paste0(mother, "_var")
+}
+
 # function to extract the rows having the given alleles in the given loci
 # from the probabilities data frame
 # probs: a data-frame containing probabilities

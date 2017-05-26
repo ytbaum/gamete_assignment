@@ -59,7 +59,7 @@ get.area.prob <- function(allele.probs) {
 # (and also to identify which mother they belong to)
 code.var.rows <- function(possibilities)
 {
-  mother.rows <- which(nchar(mother) > 0)
+  mother.rows <- get.mother.row.indices(possibilities)
   for (i in 1:(length(mother.rows)-1)) {
     cur.mother.row <- mother.rows[i]
     next.mother.row <- mother.rows[i+1]

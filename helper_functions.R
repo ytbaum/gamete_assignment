@@ -39,8 +39,32 @@ get.var.prob.rows <- function(probs, variation) {
   for (locus.name in names(variation)){
     locus <- get.locus(locus.name)
     allele <- as.character(variation[locus.name])
-    row <- probs[which(probs$Locus == locus & probs$Allele == allele), area.names]
+    row.index <- which(probs$Locus == locus & probs$Allele == allele)
+    if (length(row.index) > 1) {
+      stop(paste0("More than one row found in probabilities table for locus ",
+                  locus,
+                  " and allele ",
+                  allele))
+    } else if (length(row.index) == 0) {
+      # if a row is not found for this locus/allele pair, mark it as having appeared with
+      # frequency 0 at all areas
+      row <- rep(0, length(area.names))
+      names(row) <- area.names
+    } else {
+      # there is exactly one row for this locus/allele pair
+      row <- probs[row.index, area.names]
+    }
+
     output.df <- rbind(output.df, row)
+
+    # hacky patch
+    # if this was the first row that we added to the dataframe, and the column names do not
+    # match the names of the areas, then coerce the column names to match the names of the areas
+    # this will happen if no matching row was found in the probabilities table for the first
+    # locus/allele pair
+    if (nrow(output.df) == 1 && !all(output.df == area.names)) {
+      colnames(output.df) <- area.names
+    }
   }
 
   return(output.df)
@@ -49,8 +73,8 @@ get.var.prob.rows <- function(probs, variation) {
 # function to get the probability of seeing the given alleles in the given loci
 get.area.prob <- function(allele.probs) {
   allele.probs <- as.numeric(allele.probs)
-  very.small.prob <- 0.0001
-  allele.probs[allele.probs == 0] <- very.small.prob
+  very.small.prob <- 0.001
+  allele.probs[allele.probs %in% c(0, -1)] <- very.small.prob
   area.prob <- prod(allele.probs)
   return(area.prob)
 }

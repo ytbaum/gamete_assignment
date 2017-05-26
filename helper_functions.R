@@ -18,6 +18,18 @@ get.var.code <- function(mother) {
   paste0(mother, "_var")
 }
 
+# get indices of rows that have a value for "Mother"
+get.mother.row.indices <- function(possibilities) {
+  which(nchar(possibilities$Mother) > 0)
+}
+
+# get a list of "Mother" labels
+get.mothers <- function(possibilities) {
+  indices <- get.mother.row.indices(possibilities)
+  mothers <- possibilities$Mother[indices]
+  return(mothers)
+}
+
 # function to extract the rows having the given alleles in the given loci
 # from the probabilities data frame
 # probs: a data-frame containing probabilities

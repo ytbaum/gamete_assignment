@@ -33,13 +33,12 @@ get.var.prob.rows <- function(probs, variation) {
 }
 
 # function to get the log probability of seeing the given alleles in the given loci
-get.area.log.prob <- function(allele.probs) {
+get.area.prob <- function(allele.probs) {
   allele.probs <- as.numeric(allele.probs)
   very.small.prob <- 0.0001
   allele.probs[allele.probs == 0] <- very.small.prob
   area.prob <- prod(allele.probs)
-  log.prob <- -log(area.prob)
-  return(log.prob)
+  return(area.prob)
 }
 
 # function to identify which rows are variations, and not mother rows
@@ -65,6 +64,6 @@ code.var.rows <- function(possibilities)
 get.var.area.probs <- function(probs, var)
 {
   prob.rows <- get.var.prob.rows(probs, var)
-  var.area.probs <- apply(prob.rows, 2, get.area.log.prob)
+  var.area.probs <- apply(prob.rows, 2, get.area.prob)
   return(var.area.probs)
 }

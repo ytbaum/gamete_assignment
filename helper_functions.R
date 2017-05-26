@@ -67,3 +67,13 @@ get.var.area.probs <- function(probs, var)
   var.area.probs <- apply(prob.rows, 2, get.area.prob)
   return(var.area.probs)
 }
+
+# function to get the average probability, per location, for all genetic variants
+# from a particular mother tree
+get.mother.avg.probs <- function(possibilities, mother, probs)
+{
+  var.code <- get.var.code(mother)
+  var.rows <- possibilities[which(possibilities$Mother == var.code),3:13]
+  var.area.probs <- apply(var.rows, 1, function(var) get.var.area.probs(probs, var))
+  return(var.area.probs)
+}

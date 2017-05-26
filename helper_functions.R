@@ -1,6 +1,8 @@
 area.names <- c("Gidron", "Sheizaf", "Zeelim", "Saif", "Ein Gedi",
                 "Zofar", "Peres", "Hemar")
 
+allele.columns <- 3:13
+
 is.possibility <- function(row) {
   length(row["Mother"]) == 0
 }

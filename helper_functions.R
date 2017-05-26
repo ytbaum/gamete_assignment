@@ -55,39 +55,10 @@ get.area.prob <- function(allele.probs) {
   return(area.prob)
 }
 
-# function to identify which rows are variations, and not mother rows
-# (and also to identify which mother they belong to)
-code.var.rows <- function(possibilities)
-{
-  mother.rows <- get.mother.row.indices(possibilities)
-  for (i in 1:(length(mother.rows)-1)) {
-    cur.mother.row <- mother.rows[i]
-    next.mother.row <- mother.rows[i+1]
-    if (next.mother.row - cur.mother.row > 1) {
-      prefix <- possibilities[cur.mother.row, "Mother"]
-      var.code <- paste0(prefix, "_var")
-      var.rows <- seq(cur.mother.row + 1, next.mother.row - 1)
-      possibilities[var.rows, "Mother"] <- var.code
-    }
-  }
-
-  return(possibilities)
-}
-
 # get the per-area probabilities of seeing a certain variation
 get.var.area.probs <- function(probs, var)
 {
   prob.rows <- get.var.prob.rows(probs, var)
   var.area.probs <- apply(prob.rows, 2, get.area.prob)
-  return(var.area.probs)
-}
-
-# function to get the average probability, per location, for all genetic variants
-# from a particular mother tree
-get.mother.avg.probs <- function(possibilities, mother, probs)
-{
-  var.code <- get.var.code(mother)
-  var.rows <- possibilities[which(possibilities$Mother == var.code),3:13]
-  var.area.probs <- apply(var.rows, 1, function(var) get.var.area.probs(probs, var))
   return(var.area.probs)
 }
